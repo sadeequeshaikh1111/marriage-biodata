@@ -1,6 +1,7 @@
 window.jsPDF = window.jspdf.jsPDF;
 
 async function generatePDF() {
+    GenerateBiodata();
 
     const name = v("fullName");
     const age = v("age");
@@ -114,4 +115,41 @@ function fileToBase64(file) {
         reader.onload = () => resolve(reader.result);
         reader.readAsDataURL(file);
     });
+}
+
+async function GenerateBiodata() {
+   alert("Generating Biodata ")
+    const data = {
+        fullName: v("fullName"),
+        age: v("age"),
+        dob: v("dob"),
+        height: v("height"),
+        religion: v("religion"),
+        about: v("aboutme"),
+
+        fatherName: v("fatherName"),
+        motherName: v("motherName"),
+        siblings: v("siblings"),
+
+        phone: v("phone"),
+        email: v("email"),
+        address: v("address")
+    };
+
+    try {
+        const res = await fetch("https://mytools.sadiktamboli57.workers.dev/append", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        const output = await res.text();
+
+        console.log("Biodata generated with :", output);
+        
+    } 
+    catch (err) {
+        console.error(err);
+        
+    }
 }
